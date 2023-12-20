@@ -5,6 +5,8 @@ PHP function (action) that returns a Response object
 - Input / Arguments =  Route Wildcards, Type-hint to a Class (Symfony Request object, Doctrine Entity, other Services)
 - Output / Return = Symfony Response object (JSON, HTML, i.e. front-end of page)
 
+- keep slim
+- abstract to helper and services
 ```php
 //src/Controller/LuckyController.php
 
@@ -26,8 +28,7 @@ class LuckyController extends AbstractController  //'Controller' suffix is conve
 }
 ```
 
-- keep slim
-- abstract to helper and services
+
 
 ## [Request Object](https://symfony.com/doc/5.4/components/http_foundation.html#component-http-foundation-request)
 

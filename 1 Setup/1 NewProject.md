@@ -43,23 +43,20 @@ Symfony 5.4
          ```
    2. Enable globally
       `mv composer.phar /usr/local/bin/composer`
-5. Clone Skeleton (for webapp)
-   `$ symfony new --webapp my_project`
-6. Create a project
-   1. Create a new project
+5. Clone skeleton | Create project
+   - Create a new project
       - Use LTS version: `symfony new my_project_directory --version=lts`
-      - Specific version `symfony new my_project_directory --version=5.4`
-   2. Set up an existing project
+      - Specific version: `symfony new my_project_directory --version=5.4`
+      - Webapp version: `symfony new --webapp my_project`
+   - Set up an existing project
       ```terminal
       $ cd all-projects/
       $ git clone ....
-
-      # make Composer install the project's dependencies into vendor/
       $ cd my-project/
-      $ composer install
+      $ composer install  # make Composer install the project's dependencies into vendor/
       ```
-7. Customize .env file
-8. Create database
+6. Customize .env file
+7. Create database
 
 ## PHPStorm Configuration
 
@@ -69,26 +66,26 @@ Symfony 5.4
     - PHP Toolbox
 2. Settings->PHP->Composer: Check "Synchronize IDE settings with composer.json"
 3. Settings->PHP->Symfony->Enable Plugin for Project
-4. Settings->PHP->Symfony->"Web Directory"->Add path to project's public/
+4. Settings->PHP->Symfony->"Web Directory"->Add path to project's public folder
 5. Settings->PHP->Symfony->"App Directory"->Add path to project's folder
 6. Settings->PHP->Symfony->Twig->Click '+' to add namespace->"Project-Path"->Add path to templates directory
 
 ## Run web server
 
-PHP Version
-
-`php -S 127.0.0.1:8000 -t public/`
-
 Not working:
 1. `lsof -i :8000`
 2. `kill -9 <PID>`
-3. 
 
-Easier
-`symfony serve`
-- `--help` see commands options
-- `-d` run as daemon / in background
-- `server:start`
-- `server:status`
-- `server:stop`
+### PHP Version
 
+`php -S 127.0.0.1:8000 -t public/`
+
+### EASIER Symfony Version
+
+1. `symfony serve`
+   - `--help` see commands options
+   - `-d` run as daemon / in background
+   - `server:start`
+   - `server:status`
+   - `server:stop`
+2. `$ yarn watch`

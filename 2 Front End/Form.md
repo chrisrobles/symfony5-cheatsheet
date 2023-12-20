@@ -14,10 +14,9 @@ Symfony handles
 
 ## Form Types
 
-Everything is a "form type"
+Everything is a "form type" whether its the form itself or a form field
 
-- forms
-- form fields
+P.S. Each form type has their own options to configure it
 
 ### Reference
 
@@ -190,28 +189,34 @@ class TaskController extends AbstractController
 
 A form class is a form type that implements `FormTypeInterface` or extends `AbstractType` (better, implements the interface and provides extra utilities)
 
+
 1. Create class (`TaskType.php`)
-   1. `use Symfony\Component\Form\AbstractType;`
-   2. import all used field types
-      - `use Symfony\Component\Form\Extension\Core\Type\DateType;`
-   3. `class TaskType extends AbstractType`
-   4. Make `buildForm()`
-      ```php
-      public function buildForm(FormBuilderInterface $builder, array $options): void
-      {
-          $builder
-              ->add('task', TextType::class)
-              ->add('dueDate', DateType::class)
-              ->add('save', SubmitType::class)
-          ;
-      }
-      ```
+   1. Generate Form Class
+      - `$ php bin/console make:form`
+      - `$ php bin/console make:registration-form`
+   2. Custom
+      1. `use Symfony\Component\Form\AbstractType;`
+      2. import all used field types
+         - `use Symfony\Component\Form\Extension\Core\Type\DateType;`
+      3. `class TaskType extends AbstractType`
+      4. Make `buildForm()`
+         ```php
+         public function buildForm(FormBuilderInterface $builder, array $options): void
+         {
+             $builder
+                 ->add('task', TextType::class)
+                 ->add('dueDate', DateType::class)
+                 ->add('save', SubmitType::class)
+             ;
+         }
+         ```
 2. Use in controller
    1. `use App\Form\Type\TaskType;`
    2. `$form = $this->createForm(TaskType::class, $task)`
       - if the controller doesnt extend `AbstractController`, use `create()` from `form.factory` service
       - The form needs to know what holds the data (`createForm()` 2nd arg)
         - `$task` is good for now but not good for [embedding forms](https://symfony.com/doc/5.4/form/embedded.html) / using multiple entities
+      - 3rd arg for array of options (any custom options must be declared in `configureOptions()`)
    3. (optional) Set the HTTP action and method
       ```php
       $form = $this->createForm(TaskType::class, $task, [
@@ -221,13 +226,7 @@ A form class is a form type that implements `FormTypeInterface` or extends `Abst
       ```
 3. (optional) Explicitly specify options in `configureOptions()`
 
-#### Generate Form Class
-
-`$ php bin/console make:form`
-
-`$ php bin/console make:registration-form`
-
-### Form Options
+### Form Options | configureOptions()
 
 Helps the form be built on the back end by specifying where data comes from for inserting into the fields and custom options
 

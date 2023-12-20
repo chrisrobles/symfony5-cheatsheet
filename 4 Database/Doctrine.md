@@ -5,6 +5,10 @@ ORM (Object Relationship Manager)
 Class = table
 Object Instance = row
 
+## Repository
+
+the way to search the entity
+
 ## Common Commands
 
 ### Update DB Schema
@@ -37,13 +41,27 @@ Just delete the property and any reference to it.
 
 ### SELECT
 
-```php
-$client = $this->getDoctrine()->getRepository('App:Client')->findOneBy(['id' => $id]);
-```
-
 - `::HYDRATE_ARRAY` compute intensive, not usually necessary
 
-### WHERE
+#### By ID
+
+```php
+//find by id
+$client = $this->getDoctrine()
+->getRepository(Client::class)
+->findOne($id);
+```
+
+#### By Attribute
+
+```php
+//find by attribute
+$client = $this->getDoctrine()
+->getRepository(Client::class) //gets namespaces with class
+->findOneBy(['name' => $name]);
+```
+
+#### WHERE
 
 ```php
 ->where('cl = :client and a.type=:billing')
@@ -55,7 +73,7 @@ $client = $this->getDoctrine()->getRepository('App:Client')->findOneBy(['id' => 
 
 Create a new instance of object
 
-`$em->flush();` when done
+`$em->flush();` when done to insert
 
 ```php
 $adjustment = new Adjustment();
@@ -63,6 +81,8 @@ $adjustment->setUser($this->getUser())
     ->setIsManual(0)
     ->setTimestamp(new \DateTime())
     ->setChanges($changes);
+
+// save insert into database    
 $em->persist($adjustment);
 $em->flush();
 ```
@@ -87,9 +107,9 @@ $em->remove($location)
 $em->flush();
 ```
 
-### Transactions / flush()
+## Transactions / flush()
 
-**ALWAYS REQUIRED**
+"Remember to flush" / **ALWAYS REQUIRED**
 
 A transaction is a group of queries that are executed in a batch
 
@@ -99,6 +119,14 @@ If any of them fail, the others are rolled back, ex. delete associated stuff
 - marks the end of the transaction
 - executes the INSERT / UPDATE / DELETE scripts
 
-"Remember to flush"
-
 <https://akashicseer.com/web-development/symfony-doctrine-remove-column-from-entity-table/>
+
+## Access modifier
+
+If it is not public it MUST have a getter and setter for the form builder to access it
+
+## Accessors
+
+Symfony is smart enough to access private and protected fields of an Entity
+- For a regular field, it will use `getTask()`
+- For a Boolean field, it can use *isser* or *hasser* (`isPublished()` or `hasReminder()`)
